@@ -1,0 +1,26 @@
+--cpu Cortex-M3
+"yaoxiang\startup_stm32f103xb.o"
+"yaoxiang\oled.o"
+"yaoxiang\main.o"
+"yaoxiang\gpio.o"
+"yaoxiang\tim.o"
+"yaoxiang\stm32f1xx_it.o"
+"yaoxiang\stm32f1xx_hal_msp.o"
+"yaoxiang\stm32f1xx_hal_gpio_ex.o"
+"yaoxiang\stm32f1xx_hal_tim.o"
+"yaoxiang\stm32f1xx_hal_tim_ex.o"
+"yaoxiang\stm32f1xx_hal.o"
+"yaoxiang\stm32f1xx_hal_rcc.o"
+"yaoxiang\stm32f1xx_hal_rcc_ex.o"
+"yaoxiang\stm32f1xx_hal_gpio.o"
+"yaoxiang\stm32f1xx_hal_dma.o"
+"yaoxiang\stm32f1xx_hal_cortex.o"
+"yaoxiang\stm32f1xx_hal_pwr.o"
+"yaoxiang\stm32f1xx_hal_flash.o"
+"yaoxiang\stm32f1xx_hal_flash_ex.o"
+"yaoxiang\stm32f1xx_hal_exti.o"
+"yaoxiang\system_stm32f1xx.o"
+--strict --scatter "yaoxiang\yaoxiang.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "yaoxiang.map" -o yaoxiang\yaoxiang.axf
