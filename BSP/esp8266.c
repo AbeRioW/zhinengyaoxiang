@@ -2,6 +2,7 @@
 #include "tim.h"
 #include "stdlib.h"
 #include "oled.h"
+#include "gpio.h"
 
 
 bool device_connect = false;
@@ -37,22 +38,32 @@ void handle_esp8266(void)
 	static int i=0;
 //	char *send = "hello\r\n";
 	char *wifi_connect = "0,CONNECT";
-	char *wifi_rec = "\r\n+IPD,";
-	char *layon = "\r\n+IPD,0,5:layon";
-	char *timeset2 = "\r\n+IPD,0,7:water01";  //\r\n+IPD,0,5:water02这里的02表示阈值
-	char *timeset3 = "\r\n+IPD,0,7:water02";  //\r\n+IPD,0,5:water02这里的02表示阈值
-	char *timeset4 = "\r\n+IPD,0,7:water03";  //\r\n+IPD,0,5:water02这里的02表示阈值
+
+	char *lay1on = "\r\n+IPD,0,6:lay1on";
+	char *lay1off = "\r\n+IPD,0,7:lay1off";	
+	
+	char *lay2on = "\r\n+IPD,0,6:lay2on";
+	char *lay2off = "\r\n+IPD,0,7:lay2off";		
+	
+	char *fanon = "\r\n+IPD,0,5:fanon";
+	char *fanoff = "\r\n+IPD,0,6:fanoff";
 	
 	
-	char *tmp1 = "\r\n+IPD,0,5:tmp10";  //\r\n+IPD,0,5:water02这里的02表示阈值
-	char *tmp2 = "\r\n+IPD,0,5:tmp20";  //\r\n+IPD,0,5:water02这里的02表示阈值
-	char *tmp3 = "\r\n+IPD,0,5:tmp40";  //\r\n+IPD,0,5:water02这里的02表示阈值
-		char *tmp4 = "\r\n+IPD,0,5:tmp40";  //\r\n+IPD,0,5:water02这里的02表示阈值
-	char *tmp5 = "\r\n+IPD,0,5:tmp50";  //\r\n+IPD,0,5:water02这里的02表示阈值
-	char *tmp6 = "\r\n+IPD,0,5:tmp60";  //\r\n+IPD,0,5:water02这里的02表示阈值
-		char *tmp7 = "\r\n+IPD,0,5:tmp70";  //\r\n+IPD,0,5:water02这里的02表示阈值
-	char *tmp8 = "\r\n+IPD,0,5:tmp80";  //\r\n+IPD,0,5:water02这里的02表示阈值
-		char *tmp9 = "\r\n+IPD,0,5:tmp90";  //\r\n+IPD,0,5:water02这里的02表示阈值
+//	char *layon = "\r\n+IPD,0,5:layon";
+//	char *timeset2 = "\r\n+IPD,0,7:water01";  //\r\n+IPD,0,5:water02这里的02表示阈值
+//	char *timeset3 = "\r\n+IPD,0,7:water02";  //\r\n+IPD,0,5:water02这里的02表示阈值
+//	char *timeset4 = "\r\n+IPD,0,7:water03";  //\r\n+IPD,0,5:water02这里的02表示阈值
+//	
+//	
+//	char *tmp1 = "\r\n+IPD,0,5:tmp10";  //\r\n+IPD,0,5:water02这里的02表示阈值
+//	char *tmp2 = "\r\n+IPD,0,5:tmp20";  //\r\n+IPD,0,5:water02这里的02表示阈值
+//	char *tmp3 = "\r\n+IPD,0,5:tmp40";  //\r\n+IPD,0,5:water02这里的02表示阈值
+//		char *tmp4 = "\r\n+IPD,0,5:tmp40";  //\r\n+IPD,0,5:water02这里的02表示阈值
+//	char *tmp5 = "\r\n+IPD,0,5:tmp50";  //\r\n+IPD,0,5:water02这里的02表示阈值
+//	char *tmp6 = "\r\n+IPD,0,5:tmp60";  //\r\n+IPD,0,5:water02这里的02表示阈值
+//		char *tmp7 = "\r\n+IPD,0,5:tmp70";  //\r\n+IPD,0,5:water02这里的02表示阈值
+//	char *tmp8 = "\r\n+IPD,0,5:tmp80";  //\r\n+IPD,0,5:water02这里的02表示阈值
+//		char *tmp9 = "\r\n+IPD,0,5:tmp90";  //\r\n+IPD,0,5:water02这里的02表示阈值
 	
 	
 	
@@ -66,11 +77,39 @@ void handle_esp8266(void)
 						//printf("yes\r\n");
 						device_connect=true;
 			}
-//			
-//		  if(memcmp(uart1_rx,timeset2,18)==0)  //水深的阈值
-//			{
-//						water_ban= 1;
-//			}
+			
+		  if(memcmp(uart3_rx,lay1on,17)==0)  //水深的阈值
+			{
+						HAL_GPIO_WritePin(LAY1_GPIO_Port,LAY1_Pin,GPIO_PIN_RESET);
+			}
+			
+		  if(memcmp(uart3_rx,lay1off,18)==0)  //水深的阈值
+			{
+						HAL_GPIO_WritePin(LAY1_GPIO_Port,LAY1_Pin,GPIO_PIN_SET);
+			}
+			
+		  if(memcmp(uart3_rx,lay2on,17)==0)  //水深的阈值
+			{
+						HAL_GPIO_WritePin(LAY2_GPIO_Port,LAY2_Pin,GPIO_PIN_RESET);
+			}
+			
+		  if(memcmp(uart3_rx,lay2off,18)==0)  //水深的阈值
+			{
+						HAL_GPIO_WritePin(LAY2_GPIO_Port,LAY2_Pin,GPIO_PIN_SET);
+			}
+			
+		  if(memcmp(uart3_rx,fanon,16)==0)  //水深的阈值
+			{
+					HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
+					__HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_3,300);
+			}
+			
+		  if(memcmp(uart3_rx,fanoff,17)==0)  //水深的阈值
+			{
+					 HAL_TIM_PWM_Stop(&htim4,TIM_CHANNEL_3);
+			}
+			
+			
 //			
 //		  if(memcmp(uart1_rx,timeset3,18)==0)  //温度的阈值
 //			{

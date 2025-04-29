@@ -70,8 +70,9 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
 	int i_count=0;
+	
 	char show_data[100];
-  bool key1_status=false;
+  bool send_status=false;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -122,13 +123,21 @@ int main(void)
 		handle_esp8266();
 		
 		i_count++;
-		if(i_count==10000)
+		if(i_count==2000000)
 		{
-				sprintf(show_data,"CO2:%3dppm formaldehyde:%3dug/m3\r\n",co2_ppm,jiaquan);
-				send_wifi(show_data,35);
-		
-				sprintf(show_data,"temp:%.fC humidity:%.2f\r\n",(th_data/10.0),rh_data/10.0);
-				send_wifi(show_data,35);
+			  i_count=0;
+			   send_status=!send_status;
+			  if(send_status)
+				{
+						sprintf(show_data,"CO2:%3dppm formaldehyde:%3dug/m3 temp:%.fC humidity:%.2fRH\r\n",co2_ppm,jiaquan,(th_data/10.0),rh_data/10.0);
+						send_wifi(show_data,60);
+				}
+				else
+				{
+						sprintf(show_data,"PM2.5:%3d mg/m3\r\n",pm25);
+						send_wifi(show_data,20);
+				}
+
 		}
 
 		//sprintf(show_pm27,"formaldehyde:%3dug/m3",jiaquan);
