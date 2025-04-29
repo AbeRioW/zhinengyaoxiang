@@ -18,12 +18,15 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "oled.h"
+#include "esp8266.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,7 +69,9 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+	int i_count=0;
+	char show_data[100];
+  bool key1_status=false;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -87,15 +92,22 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_TIM4_Init();
+  MX_USART1_UART_Init();
+  MX_USART2_UART_Init();
+  MX_TIM1_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
+		start_esp8266();
 	OLED_Init();
 	OLED_ColorTurn(0);
   OLED_DisplayTurn(0);
 	OLED_Clear();
-				OLED_ShowString(0,47,(uint8_t*)"hello",16,1);
-  		OLED_Refresh();
-		HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
+
+//	OLED_ShowString(0,47,(uint8_t*)"hello",16,1);
+//  OLED_Refresh();
+//	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -105,7 +117,24 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-						__HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_3,300);
+		
+	//	DHT11_READ_DATA();
+		handle_esp8266();
+		
+		i_count++;
+		if(i_count==10000)
+		{
+				sprintf(show_data,"CO2:%3dppm formaldehyde:%3dug/m3\r\n",co2_ppm,jiaquan);
+				send_wifi(show_data,35);
+		
+				sprintf(show_data,"temp:%.fC humidity:%.2f\r\n",(th_data/10.0),rh_data/10.0);
+				send_wifi(show_data,35);
+		}
+
+		//sprintf(show_pm27,"formaldehyde:%3dug/m3",jiaquan);
+		
+//		handle_uart_rec();
+
   }
   /* USER CODE END 3 */
 }

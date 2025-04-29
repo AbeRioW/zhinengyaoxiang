@@ -29,7 +29,10 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "stdbool.h"
+enum BUTTON {LEFT,MIDLE,RIGHT,UNPRESS};
+extern enum BUTTON botton;
+extern bool key3_count;
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */

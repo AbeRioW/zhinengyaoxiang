@@ -1,9 +1,12 @@
 --cpu Cortex-M3
 "yaoxiang\startup_stm32f103xb.o"
 "yaoxiang\oled.o"
+"yaoxiang\esp8266.o"
 "yaoxiang\main.o"
 "yaoxiang\gpio.o"
+"yaoxiang\dma.o"
 "yaoxiang\tim.o"
+"yaoxiang\usart.o"
 "yaoxiang\stm32f1xx_it.o"
 "yaoxiang\stm32f1xx_hal_msp.o"
 "yaoxiang\stm32f1xx_hal_gpio_ex.o"
@@ -19,8 +22,9 @@
 "yaoxiang\stm32f1xx_hal_flash.o"
 "yaoxiang\stm32f1xx_hal_flash_ex.o"
 "yaoxiang\stm32f1xx_hal_exti.o"
+"yaoxiang\stm32f1xx_hal_uart.o"
 "yaoxiang\system_stm32f1xx.o"
---strict --scatter "yaoxiang\yaoxiang.sct"
---summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--library_type=microlib --strict --scatter "yaoxiang\yaoxiang.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "yaoxiang.map" -o yaoxiang\yaoxiang.axf
