@@ -70,9 +70,10 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
 	int i_count=0;
-	
+		  float num_d;
 	char show_data[100];
   bool send_status=false;
+			  char show_ds[20];
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -106,9 +107,6 @@ int main(void)
   OLED_DisplayTurn(0);
 	OLED_Clear();
 
-//	OLED_ShowString(0,47,(uint8_t*)"hello",16,1);
-//  OLED_Refresh();
-//	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -118,9 +116,28 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		
-	//	DHT11_READ_DATA();
 		handle_esp8266();
+		
+		if(HAL_GPIO_ReadPin(HC_SR505_GPIO_Port,HC_SR505_Pin)==GPIO_PIN_SET)
+		{
+				HAL_GPIO_WritePin(LAY2_GPIO_Port,LAY2_Pin,GPIO_PIN_SET);
+		}
+		
+		if((co2_ppm>200)||(jiaquan>150)||(pm25>100))
+		{
+				HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
+				__HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_3,300);
+			HAL_GPIO_WritePin(LAY1_GPIO_Port,LAY1_Pin,GPIO_PIN_RESET);
+		}
+		else
+		{
+//			  if(!key1_status)
+//				{
+//						HAL_TIM_PWM_Stop(&htim4,TIM_CHANNEL_3);
+//					  			HAL_GPIO_WritePin(LAY1_GPIO_Port,LAY1_Pin,GPIO_PIN_SET);
+//				}
+
+		}
 		
 		i_count++;
 		if(i_count==2000000)
@@ -139,10 +156,6 @@ int main(void)
 				}
 
 		}
-
-		//sprintf(show_pm27,"formaldehyde:%3dug/m3",jiaquan);
-		
-//		handle_uart_rec();
 
   }
   /* USER CODE END 3 */

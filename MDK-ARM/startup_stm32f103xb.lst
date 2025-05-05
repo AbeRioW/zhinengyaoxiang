@@ -461,11 +461,11 @@ ARM Macro Assembler    Page 8
 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=yaoxiang\startup_stm32f103xb.d -oyaoxiang\startup_stm32f103xb.o -I
-.\RTE\_yaoxiang -IC:\Users\dell\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\C
-ore\Include -IC:\Users\dell\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\De
-vice\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SET
-A 538" --predefine="_RTE_ SETA 1" --predefine="STM32F10X_MD SETA 1" --predefine
-="_RTE_ SETA 1" --list=startup_stm32f103xb.lst startup_stm32f103xb.s
+C:\Users\Admin\Desktop\zhinengyaoxiang\MDK-ARM\RTE -IC:\Keil_v5\ARM\PACK\ARM\CM
+SIS\4.2.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1 --predef
+ine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 514" --predefine="_
+RTE_ SETA 1" --predefine="STM32F10X_MD SETA 1" --list=startup_stm32f103xb.lst s
+tartup_stm32f103xb.s
 
 
 

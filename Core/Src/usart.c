@@ -364,20 +364,20 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 				char show_pm29[30];
 		if(uart2_rx[0]==0x2c)
 		{
-			 co2_ppm = uart2_rx[5]*256+uart2_rx[6];
-			 jiaquan = uart2_rx[3]*256+uart2_rx[4];
+				co2_ppm = uart2_rx[5]*256+uart2_rx[6];
+				jiaquan = uart2_rx[3]*256+uart2_rx[4];
 			
-			 th_data = (float)(uart2_rx[7]*256+uart2_rx[8]);
-			 rh_data = (float)(uart2_rx[9]*256+uart2_rx[10]);
+				th_data = (float)(uart2_rx[7]*256+uart2_rx[8]);
+				rh_data = (float)(uart2_rx[9]*256+uart2_rx[10]);
 				sprintf(show_pm26,"CO2: %3d ppm",co2_ppm);
 			  sprintf(show_pm27,"formaldehyde:%3dug/m3",jiaquan);
 				sprintf(show_pm28,"temp:%.2f C",th_data/10.0);
 				sprintf(show_pm29,"humidity:%.2f RH",rh_data/10.0);
-					OLED_ShowString(0,10,(uint8_t*)show_pm26,8,1);
-					OLED_ShowString(0,20,(uint8_t*)show_pm27,8,1);
-					OLED_ShowString(0,30,(uint8_t*)show_pm28,8,1);
-					OLED_ShowString(0,40,(uint8_t*)show_pm29,8,1);
-					OLED_Refresh();
+				OLED_ShowString(0,10,(uint8_t*)show_pm26,8,1);
+				OLED_ShowString(0,20,(uint8_t*)show_pm27,8,1);
+				OLED_ShowString(0,30,(uint8_t*)show_pm28,8,1);
+				OLED_ShowString(0,40,(uint8_t*)show_pm29,8,1);
+				OLED_Refresh();
 		}
 
 		// 重新开启串口接收中断

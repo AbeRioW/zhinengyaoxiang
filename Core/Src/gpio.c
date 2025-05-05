@@ -26,6 +26,7 @@
 enum BUTTON botton = UNPRESS;
 bool key3_count=false;
 
+bool key1_status = false;
 /* USER CODE END 0 */
 
 /*----------------------------------------------------------------------------*/
@@ -57,7 +58,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, OLED_SCL_Pin|OLED_SDA_Pin|OLED_RES_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, OLED_DC_Pin|OLED_CS_Pin|DHT11_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOA, OLED_DC_Pin|OLED_CS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LAY2_Pin|LAY1_Pin, GPIO_PIN_SET);
@@ -69,12 +70,18 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : OLED_DC_Pin OLED_CS_Pin DHT11_Pin */
-  GPIO_InitStruct.Pin = OLED_DC_Pin|OLED_CS_Pin|DHT11_Pin;
+  /*Configure GPIO pins : OLED_DC_Pin OLED_CS_Pin */
+  GPIO_InitStruct.Pin = OLED_DC_Pin|OLED_CS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : HC_SR505_Pin */
+  GPIO_InitStruct.Pin = HC_SR505_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(HC_SR505_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : KEY1_Pin KEY2_Pin KEY3_Pin */
   GPIO_InitStruct.Pin = KEY1_Pin|KEY2_Pin|KEY3_Pin;
@@ -98,7 +105,7 @@ void MX_GPIO_Init(void)
 /* USER CODE BEGIN 2 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	static bool key1_status = false;
+
 	static bool key2_status = false;
 	static bool key3_status = false;
 			if(GPIO_Pin==KEY1_Pin)
@@ -106,8 +113,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 				  key1_status=!key1_status;				
 				if(key1_status)
 				{
-					 				HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
-				__HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_3,300);
+					 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
+						__HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_3,300);
 				}
 				else
 				{

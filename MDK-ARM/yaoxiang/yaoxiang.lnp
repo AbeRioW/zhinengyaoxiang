@@ -25,6 +25,6 @@
 "yaoxiang\stm32f1xx_hal_uart.o"
 "yaoxiang\system_stm32f1xx.o"
 --library_type=microlib --strict --scatter "yaoxiang\yaoxiang.sct"
---summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "yaoxiang.map" -o yaoxiang\yaoxiang.axf

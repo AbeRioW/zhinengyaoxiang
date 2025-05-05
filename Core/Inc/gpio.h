@@ -33,6 +33,7 @@ extern "C" {
 enum BUTTON {LEFT,MIDLE,RIGHT,UNPRESS};
 extern enum BUTTON botton;
 extern bool key3_count;
+extern bool key1_status;
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
